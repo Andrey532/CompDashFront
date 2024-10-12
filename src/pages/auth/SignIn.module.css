@@ -1,27 +1,31 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 75vh;
-    min-width: 30%;
-    max-width: 700px;
-    border: 2px solid;
-    border-radius: 7px;
-    position: relative;
-}
-
-.toastContainer {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
+  min-width: 45%;
+  max-width: 100%;
+  border-radius: 7px;
+  position: relative;
+  background-color: rgb(238, 230, 230);
 }
 
 .loaderContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.text_p {
+  margin-top: 40px;
+}
+
+.text_p a {
+    color: #1976d2;
+}
+
+.text_p a:hover {
+  text-decoration: underline;
 }

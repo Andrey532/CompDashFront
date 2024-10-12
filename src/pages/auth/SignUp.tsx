@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from "./SignUp.module.css"
 import { registerUser } from '../../api/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation } from '@tanstack/react-query';
 import { toast, ToastContainer } from 'react-toastify';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
 
 export type RegisterFormInput = {
     email: string;
@@ -40,13 +43,21 @@ const phoneNumberConfig = {
     }
 }
 
-export const Register: React.FC = () => {
+export const SignUp: React.FC = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormInput>();
 
     const mutation = useMutation({
         mutationFn: registerUser,
         onSuccess: (data) => {
             toast.success(data.message, {containerId: "registerFormToast"});
+            setLoading(true);
+            setTimeout(() => {
+                navigate('/main');
+                setLoading(false);
+            }, 1500);
         },
         onError: (error: any) => {
             toast.error(error.message, {containerId: "registerFormToast"});
@@ -63,10 +74,16 @@ export const Register: React.FC = () => {
 
     return (
         <Box className={styles.container}>
+            <Link className={styles.link_signIn} to="/auth/sign-in">Sign In</Link>
             <Typography variant="h4" gutterBottom>
-                Registration
+                Create an account
             </Typography>
 
+            {loading && (
+                <Box className={styles.loaderContainer}>
+                    <CircularProgress />
+                </Box>
+            )}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box sx={{ mb: 2 }}>
                     <TextField
@@ -103,10 +120,22 @@ export const Register: React.FC = () => {
                         label="Password"
                         variant="outlined"
                         fullWidth
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         {...register('password', passwordConfig)}
                         error={!!errors.password}
                         helperText={errors.password?.message}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Box sx={{ mb: 2 }}>
@@ -133,7 +162,7 @@ export const Register: React.FC = () => {
                 <Button type="submit" variant="contained" color="primary" fullWidth>
                     Registration
                 </Button>
-            <ToastContainer className={styles.toastContainer} containerId="registerFormToast" position="top-center" />
+            <ToastContainer containerId="registerFormToast" position="top-center" />
             </form>
         </Box>
     );
