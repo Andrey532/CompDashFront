@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+    min-width: 30%;
+    max-width: 700px;
+    border: 2px solid;
+    border-radius: 7px;
+}
+
+.error {
+    color: red;
+}
+
+.toastContainer {
+    margin-top: 125px;
+}
