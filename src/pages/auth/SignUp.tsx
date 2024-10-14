@@ -52,23 +52,19 @@ export const SignUp: React.FC = () => {
     const mutation = useMutation({
         mutationFn: registerUser,
         onSuccess: (data) => {
-            toast.success(data.message, {containerId: "registerFormToast"});
+            toast.success(data.message, { containerId: "registerFormToast" });
             setLoading(true);
             setTimeout(() => {
                 navigate('/main');
                 setLoading(false);
-            }, 1500);
+            }, 1000);
         },
         onError: (error: any) => {
-            toast.error(error.message, {containerId: "registerFormToast"});
+            toast.error(error.message, { containerId: "registerFormToast" });
         },
     });
 
     const onSubmit: SubmitHandler<RegisterFormInput> = (data) => {
-        // if (data.password !== data.confirmPassword) {
-        //     toast.error('Passwords do not match!');
-        //     return;
-        // }
         mutation.mutate(data);
     };
 
@@ -148,22 +144,11 @@ export const SignUp: React.FC = () => {
                         helperText={errors.phone_number?.message}
                     />
                 </Box>
-                {/* <Box sx={{ mb: 2 }}>
-                    <TextField
-                        label="Confirm Password"
-                        variant="outlined"
-                        fullWidth
-                        type="password"
-                        {...register('confirmPassword', { required: 'Confirm your password' })}
-                        error={!!errors.confirmPassword}
-                        helperText={errors.confirmPassword?.message}
-                    />
-                </Box> */}
                 <Button type="submit" variant="contained" color="primary" fullWidth>
                     Registration
                 </Button>
-            <ToastContainer containerId="registerFormToast" position="top-center" />
             </form>
+                <ToastContainer containerId="registerFormToast" position="top-center" />
         </Box>
     );
 };

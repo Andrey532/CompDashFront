@@ -7,9 +7,9 @@ import { useMutation } from '@tanstack/react-query';
 import { emailConfig, passwordConfig } from './SignUp';
 import { toast, ToastContainer } from 'react-toastify';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { TextField, Button, Box, Typography, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import { TextField, Button, Box, Typography, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 
 export type SignInFormInput = {
     email: string;
@@ -25,12 +25,13 @@ export const SignIn: React.FC = () => {
     const mutation = useMutation({
         mutationFn: loginUser,
         onSuccess: (data) => {
+            localStorage.setItem("access_token", data.access_token);
             toast.success(data.message, { containerId: "signInFormToast" });
             setLoading(true);
             setTimeout(() => {
                 navigate('/main');
                 setLoading(false);
-            }, 1500);
+            }, 1000);
         },
         onError: (error: any) => {
             toast.error(error.message, { containerId: "signInFormToast" });

@@ -7,7 +7,6 @@
   min-width: 45%;
   max-width: 100%;
   border-radius: 7px;
-  position: relative;
   background-color: rgb(238, 230, 230);
 }
 
@@ -20,10 +19,11 @@
 
 .text_p {
   margin-top: 40px;
+  text-align: center;
 }
 
 .text_p a {
-    color: #1976d2;
+  color: #1976d2;
 }
 
 .text_p a:hover {

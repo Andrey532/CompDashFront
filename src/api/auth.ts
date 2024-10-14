@@ -22,3 +22,32 @@ export const loginUser = async (userData: { email: string; password: string }) =
         throw new Error('Login failed');
     }
 };
+
+export const logoutUser = async () => {
+    const response = await axios.get("http://localhost:3001/auth/logout", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+    });
+    
+    return response.data;
+    
+};
+
+// export const logoutUser = async () => {
+//     const token = localStorage.getItem('access_token');
+    
+//     if (!token) {
+//         throw new Error("Token not found");
+//     }
+    
+//     console.log("Токен перед запитом на logout:", token); // Логування токена
+
+//     const response = await axios.get("http://localhost:3001/auth/logout", {
+//         headers: {
+//             Authorization: `Bearer ${token}`, // Перевір правильність Bearer токена
+//         },
+//     });
+
+//     return response.data;
+// };
