@@ -1,8 +1,6 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Logout } from './Logout';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 
 export const Navbar: React.FC = () => {
 
@@ -10,7 +8,7 @@ export const Navbar: React.FC = () => {
         <AppBar position="fixed">
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Dashboard
+                    Company Dashboard
                 </Typography>
                 <Box>
                     <Logout/>

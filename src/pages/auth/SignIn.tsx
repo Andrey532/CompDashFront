@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import styles from "./SignIn.module.css";
 import { loginUser } from '../../api/auth';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import { emailConfig, passwordConfig } from './SignUp';
 import { toast, ToastContainer } from 'react-toastify';
+import Visibility from '@mui/icons-material/Visibility';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Visibility from '@mui/icons-material/Visibility';
 import { TextField, Button, Box, Typography, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 
 export type SignInFormInput = {
@@ -29,7 +29,7 @@ export const SignIn: React.FC = () => {
             toast.success(data.message, { containerId: "signInFormToast" });
             setLoading(true);
             setTimeout(() => {
-                navigate('/main');
+                navigate("/main");
                 setLoading(false);
             }, 1000);
         },
@@ -60,7 +60,7 @@ export const SignIn: React.FC = () => {
                             label="Email"
                             variant="outlined"
                             fullWidth
-                            {...register('email', emailConfig)}
+                            {...register("email", emailConfig)}
                             error={!!errors.email}
                             helperText={errors.email?.message}
                         />
@@ -71,7 +71,7 @@ export const SignIn: React.FC = () => {
                             variant="outlined"
                             fullWidth
                             type={showPassword ? "text" : "password"}
-                            {...register('password', passwordConfig)}
+                            {...register("password", passwordConfig)}
                             error={!!errors.password}
                             helperText={errors.password?.message}
                             InputProps={{

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import styles from "./SignUp.module.css"
-import { registerUser } from '../../api/auth';
+import styles from "./SignUp.module.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation } from '@tanstack/react-query';
-import { toast, ToastContainer } from 'react-toastify';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { TextField, Button, Box, Typography, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { toast, ToastContainer } from 'react-toastify';
 import Visibility from '@mui/icons-material/Visibility';
+import { loginUser, registerUser } from '../../api/auth';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { TextField, Button, Box, Typography, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 
 export type RegisterFormInput = {
     email: string;
@@ -51,13 +51,20 @@ export const SignUp: React.FC = () => {
 
     const mutation = useMutation({
         mutationFn: registerUser,
-        onSuccess: (data) => {
+        onSuccess: async (data, variables) => {
             toast.success(data.message, { containerId: "registerFormToast" });
-            setLoading(true);
-            setTimeout(() => {
-                navigate('/main');
-                setLoading(false);
-            }, 1000);
+            const loginData = { email: variables.email, password: variables.password };
+            try {
+                const loginResponse = await loginUser(loginData);
+                localStorage.setItem("access_token", loginResponse.access_token);
+                setLoading(true);
+                setTimeout(() => {
+                    navigate("/main");
+                    setLoading(false);
+                }, 1000);
+            } catch (loginError: any) {
+                toast.error(loginError.message, { containerId: "registerFormToast" });
+            }
         },
         onError: (error: any) => {
             toast.error(error.message, { containerId: "registerFormToast" });
@@ -86,7 +93,7 @@ export const SignUp: React.FC = () => {
                         label="First Name"
                         variant="outlined"
                         fullWidth
-                        {...register('first_name', { required: 'First name is required' })}
+                        {...register("first_name", { required: "First name is required" })}
                         error={!!errors.first_name}
                         helperText={errors.first_name?.message}
                     />
@@ -96,7 +103,7 @@ export const SignUp: React.FC = () => {
                         label="Last Name"
                         variant="outlined"
                         fullWidth
-                        {...register('last_name', { required: 'Last name is required' })}
+                        {...register("last_name", { required: "Last name is required" })}
                         error={!!errors.last_name}
                         helperText={errors.last_name?.message}
                     />
@@ -117,7 +124,7 @@ export const SignUp: React.FC = () => {
                         variant="outlined"
                         fullWidth
                         type={showPassword ? "text" : "password"}
-                        {...register('password', passwordConfig)}
+                        {...register("password", passwordConfig)}
                         error={!!errors.password}
                         helperText={errors.password?.message}
                         InputProps={{
@@ -139,7 +146,7 @@ export const SignUp: React.FC = () => {
                         label="Phone Number"
                         variant="outlined"
                         fullWidth
-                        {...register('phone_number', phoneNumberConfig)}
+                        {...register("phone_number", phoneNumberConfig)}
                         error={!!errors.phone_number}
                         helperText={errors.phone_number?.message}
                     />
@@ -148,7 +155,7 @@ export const SignUp: React.FC = () => {
                     Registration
                 </Button>
             </form>
-                <ToastContainer containerId="registerFormToast" position="top-center" />
+            <ToastContainer containerId="registerFormToast" position="top-center" />
         </Box>
     );
 };
