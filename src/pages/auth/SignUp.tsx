@@ -57,17 +57,11 @@ export const SignUp: React.FC = () => {
             try {
                 const loginResponse = await loginUser(loginData);
                 localStorage.setItem("access_token", loginResponse.access_token);
-                setLoading(true);
-                setTimeout(() => {
-                    navigate("/main");
-                    setLoading(false);
-                }, 1000);
+                localStorage.setItem("id", loginResponse.id);
+                navigate("/profile");
             } catch (loginError: any) {
                 toast.error(loginError.message, { containerId: "registerFormToast" });
             }
-        },
-        onError: (error: any) => {
-            toast.error(error.message, { containerId: "registerFormToast" });
         },
     });
 

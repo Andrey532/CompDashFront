@@ -26,6 +26,7 @@ export const SignIn: React.FC = () => {
         mutationFn: loginUser,
         onSuccess: (data) => {
             localStorage.setItem("access_token", data.access_token);
+            localStorage.setItem("id", data.id);
             toast.success(data.message, { containerId: "signInFormToast" });
             setLoading(true);
             setTimeout(() => {

@@ -1,10 +1,11 @@
 import { Navbar } from "../components/Navbar"
+import { Profile } from "./profile/Profile"
 
 export const MainPage = () => {
     return (
         <>
             <Navbar />
-            <h1>Main Page</h1>
+            <Profile/>
         </>
     )
 }
